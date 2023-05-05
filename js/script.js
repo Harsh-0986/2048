@@ -15,6 +15,7 @@ function setupInput() {
 }
 
 setupInput();
+setTouch();
 
 async function handleInput(e) {
   switch (e.key) {
@@ -137,4 +138,87 @@ function canMove(cells) {
       return moveToCell.canAccept(cell.tile);
     });
   });
+}
+
+// Touch Logic
+
+function setTouch() {
+  window.addEventListener("touchstart", handleTouchStart, false);
+  window.addEventListener("touchmove", handleTouchMove, false);
+}
+var xDown = null;
+var yDown = null;
+
+function getTouches(evt) {
+  return (
+    evt.touches || // browser API
+    evt.originalEvent.touches
+  ); // jQuery
+}
+
+function handleTouchStart(evt) {
+  const firstTouch = getTouches(evt)[0];
+  xDown = firstTouch.clientX;
+  yDown = firstTouch.clientY;
+}
+
+async function handleTouchMove(evt) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  var xUp = evt.touches[0].clientX;
+  var yUp = evt.touches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    /*most significant*/
+    if (xDiff < 0) {
+      if (!canMoveRight()) {
+        setTouch();
+        return;
+      }
+      await moveRight();
+    } else {
+      if (!canMoveLeft()) {
+        setTouch();
+        return;
+      }
+      await moveLeft();
+    }
+  } else {
+    if (yDiff < 0) {
+      if (!canMoveDown()) {
+        setTouch();
+        return;
+      }
+      await moveDown();
+    } else {
+      if (!canMoveUp()) {
+        setTouch();
+        return;
+      }
+      await moveUp();
+    }
+  }
+  // Merging tiles
+  grid.cells.forEach((cell) => cell.mergeTiles());
+
+  // Adding tiles
+  const newTile = new Tile(gameBoard);
+  grid.randomEmptyCell().tile = newTile;
+
+  // Game Over Logic
+  if (!canMoveUp() && !canMoveDown() && !canMoveRight() && !canMoveLeft()) {
+    newTile.waitForTransition(true).then(() => alert("You lose"));
+    return;
+  }
+
+  setTouch();
+
+  /* reset values */
+  xDown = null;
+  yDown = null;
 }
