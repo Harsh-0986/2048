@@ -143,8 +143,8 @@ function canMove(cells) {
 // Touch Logic
 
 function setTouch() {
-  window.addEventListener("touchstart", handleTouchStart, false);
-  window.addEventListener("touchmove", handleTouchMove, false);
+  gameBoard.addEventListener("touchstart", handleTouchStart, false);
+  gameBoard.addEventListener("touchmove", handleTouchMove, false);
 }
 var xDown = null;
 var yDown = null;
