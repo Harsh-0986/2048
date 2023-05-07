@@ -3,6 +3,12 @@ import Tile from "./Tile.js";
 
 // console.log("Console");
 const gameBoard = document.getElementById("game-board");
+const currScore = document.getElementById("cscore");
+const best = document.getElementById("best");
+
+function setupBest() {
+  best.innerText = localStorage.getItem("best") || 0;
+}
 
 const grid = new Grid(gameBoard);
 
@@ -16,6 +22,7 @@ function setupInput() {
 
 setupInput();
 setTouch();
+setupBest();
 
 async function handleInput(e) {
   switch (e.key) {
@@ -53,7 +60,7 @@ async function handleInput(e) {
   }
 
   // Merging tiles
-  grid.cells.forEach((cell) => cell.mergeTiles());
+  grid.cells.forEach((cell) => cell.mergeTiles(currScore, best));
 
   // Adding tiles
   const newTile = new Tile(gameBoard);
@@ -62,6 +69,8 @@ async function handleInput(e) {
   // Game Over Logic
   if (!canMoveUp() && !canMoveDown() && !canMoveRight() && !canMoveLeft()) {
     newTile.waitForTransition(true).then(() => alert("You lose"));
+    if (best.innerText < currScore.innerText) return;
+    localStorage.setItem("best", currScore.innerText);
     return;
   }
 
@@ -204,7 +213,7 @@ async function handleTouchMove(evt) {
     }
   }
   // Merging tiles
-  grid.cells.forEach((cell) => cell.mergeTiles());
+  grid.cells.forEach((cell) => cell.mergeTiles(currScore, best));
 
   // Adding tiles
   const newTile = new Tile(gameBoard);
@@ -213,6 +222,8 @@ async function handleTouchMove(evt) {
   // Game Over Logic
   if (!canMoveUp() && !canMoveDown() && !canMoveRight() && !canMoveLeft()) {
     newTile.waitForTransition(true).then(() => alert("You lose"));
+    if (best.innerText < currScore.innerText) return;
+    localStorage.setItem("best", currScore.innerText);
     return;
   }
 

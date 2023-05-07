@@ -1,5 +1,5 @@
 const GRID_SIZE = 4;
-const CELL_SIZE = 20;
+const CELL_SIZE = 18;
 const CELL_GAP = 2;
 
 export default class Grid {
@@ -101,9 +101,17 @@ class Cell {
     );
   }
 
-  mergeTiles() {
+  mergeTiles(currScore, bestScore) {
     if (this.tile == null || this.mergeTile == null) return;
+    let cscore = parseInt(currScore.innerText, 10);
+    cscore += this.tile.value;
+    currScore.innerText = cscore.toString();
     this.tile.value = this.tile.value + this.mergeTile.value;
+    if (
+      parseInt(currScore.innerText, 10) >= parseInt(bestScore.innerText, 10)
+    ) {
+      best.innerText = currScore.innerText;
+    }
     this.mergeTile.remove();
     this.mergeTile = null;
   }

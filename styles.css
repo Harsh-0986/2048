@@ -15,9 +15,58 @@ body {
   width: 100vw;
   margin: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 7.5vmin;
+}
+
+.header {
+  width: 82vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 0.5vmin;
+  height: 13%;
+}
+
+.scorebox {
+  width: 11%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 13vh;
+  font-size: 3vmin;
+}
+
+.score,
+.best {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.2vmin;
+  margin: 0 1vmin;
+  border-radius: 1.5vmin;
+  border: 2px solid white;
+}
+
+.score {
+  background-color: #ccc;
+  color: #333;
+}
+
+.best {
+  background-color: #635c5c;
+}
+
+.label,
+#cscore,
+#best {
+  margin: 0;
+  padding: 0;
 }
 
 #game-board {

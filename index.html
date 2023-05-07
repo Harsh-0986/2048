@@ -6,23 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#333" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2048 Clone</title>
+    <title>2048</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="manifest" href="./manifest.json" />
     <script src="js/script.js" defer type="module"></script>
   </head>
   <body>
+    <!-- Header -->
+    <header class="header">
+      <span>2048</span>
+      <div class="scorebox">
+        <span class="score">
+          <span class="label">Score:</span>
+          <span id="cscore">0</span>
+        </span>
+        <span class="best">
+          <span class='label'>Best:</span>
+          <span id="best">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Game Board -->
     <div id="game-board"></div>
-  <script >
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./serviceworker.js")
-      .then((reg) => {
-        console.log('success', reg.scope)
-      })
-      .catch(err => console.log(err));
-    });
-  }
-  </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then((reg) => {
+              console.log("success", reg.scope);
+            })
+            .catch((err) => console.log(err));
+        });
+      }
+    </script>
   </body>
 </html>
