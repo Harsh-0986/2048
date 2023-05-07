@@ -1,4 +1,4 @@
-const CACHE_NAME = "version-2";
+const CACHE_NAME = "version-2.1";
 const URLS_TO_CACHE = ["index.html"];
 const self = this;
 
